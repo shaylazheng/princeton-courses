@@ -1,0 +1,199 @@
+\subsection*{Question 1}
+
+Consider the portfolio rule:
+$
+x_{t-1} = \max\left\{0,\; \min\left\{1,\; 
+\frac{\mathbb{E}_{t-1}[R_t - R_{f,t}]}{\gamma\sigma^2} \right\}\right\},
+$
+with risk aversion $\gamma = 5$ and variance $\sigma^2 = 0.0019$.  
+The excess portfolio return is
+$
+r_{p,t} = x_{t-1}(R_t - R_{f,t}),
+$
+and the annualized Sharpe ratio is $\sqrt{12}$ times the monthly Sharpe ratio.
+\subsubsection*{(a) Constant Expected Excess Return}
+$$
+\mathbb{E}_{t-1}[R_t - R_{f,t}] = 0.0019.
+$$
+$$
+x = \frac{0.0019}{5 \cdot 0.0019} = 0.2.
+$$
+
+\textbf{Annualized Sharpe ratio}: $\boxed{\text{SR}_{\text{annual}} = 0.3945}$
+\subsubsection*{(b) 5-Year Moving Average Forecast}
+$$
+\mathbb{E}_{t-1}[R_t - R_{f,t}] = \frac{1}{60}\sum_{s=t-60}^{t-1} (R_s - R_{f,s}),
+$$
+and $x_{t-1}$ is computed using the same portfolio rule. See the code portion for a list of the expected excess returns.
+\\\\
+\textbf{Annualized Sharpe ratio}: $\boxed{\text{SR}_{\text{annual}} = 0.2785}$
+\subsubsection*{(c) Forecast Based on Dividend Yield}
+Estimate the regression using all data prior to $t$:
+\[
+R_s - R_{f,s} = \alpha_{t-1} + \beta_{t-1} y_{s-1} + \varepsilon_s,
+\]
+and form the forecast
+\[
+\mathbb{E}_{t-1}[R_t - R_{f,t}] 
+= \alpha_{t-1} + \beta_{t-1} y_{t-1}.
+\]
+See the code portion for a list of the expected excess returns.
+\textbf{Annualized Sharpe ratio}:$\boxed{\text{SR}_{\text{annual}} = 0.3822}$
+\subsubsection*{(d) Forecast Based on Net Payout Yield}
+Replace $y$ with net payout yield (NPY).
+See the code portion for a list of the expected excess returns.
+\textbf{Annualized Sharpe ratio}: $\boxed{\text{SR}_{\text{annual}} = 0.3575}$
+\subsubsection*{(e) Discussion}
+Comparing Sharpe ratios:
+\[
+\begin{aligned}
+\text{Constant mean:} && 0.3945 \\
+\text{5-year MA:} && 0.2785 \\
+\text{Dividend yield:} && 0.3822 \\
+\text{Net payout yield:} && 0.3575
+\end{aligned}
+\]
+
+The constant‐mean strategy delivers the highest Sharpe ratio (0.3945), while the 5-year moving average performs the worst (0.2785). This occurs because excess returns are extremely noisy, so rolling averages tend to generate unstable and imprecise forecasts.
+
+Dividend yield and net payout yield forecasts do better than the moving average, since these variables are more persistent and theoretically related to expected returns. However, neither predictor produces a Sharpe ratio meaningfully higher than the constant‐mean benchmark. This suggests that although valuation ratios contain some predictive power, the signal is weak relative to return volatility.
+
+Overall, the results show limited evidence of successful mean-based market timing in this sample.
+\subsection*{Question 2}
+Now consider volatility timing using the rule
+$x_{t-1} = 
+\max\left\{0,\; 
+\min\left\{1,\; 
+\frac{E[R_t - R_{f,t}]}{\gamma\sigma_{t-1}^2}
+\right\}\right\}
+$
+with risk aversion $\gamma = 6$ and expected monthly excess return
+$
+E[R_t - R_{f,t}] = 0.0063.
+$ The sample was taken from 1990:2–2014:12.
+\subsubsection*{(a) Constant Volatility}
+Unconditional variance: $\sigma^2 = 0.001878$
+
+\textbf{Weight}: $x = 0.55896$
+
+\textbf{Annualized Sharpe ratio}: $\boxed{\text{SR}_{\text{annual}} = 0.5224}$
+
+\subsubsection*{(b) Rolling 12-Month Standard Deviation}
+See the expected monthly standard deviation in the coding portion.
+Consider the equation:
+\[
+\sigma_{t-1} = \text{Std}(R_{t-12},\ldots,R_{t-1}),
+\]
+\textbf{Annualized Sharpe ratio}: $\boxed{\text{SR}_{\text{annual}} = 0.5411}$
+\subsubsection*{(c) Using VIX}
+Monthly volatility estimate:
+\[
+\sigma_{t-1} = \frac{\text{VIX}_{t-1}}{\sqrt{12}}.
+\]
+
+\textbf{Annualized Sharpe ratio}:$\boxed{\text{SR}_{\text{annual}} = 0.6593.}$
+
+\subsubsection*{(d) Discussion}
+Sharpe ratio comparison:
+
+\[
+\begin{aligned}
+\text{Constant volatility:} && 0.5224 \\
+\text{Rolling 12-month:} && 0.5411 \\
+\text{VIX-based:} && 0.6593
+\end{aligned}
+\]
+
+Both conditional volatility strategies outperform the constant‐volatility benchmark. The rolling 12-month standard deviation improves performance because volatility is persistent, so scaling down exposure during high‐volatility periods helps stabilize returns.
+
+The VIX-based strategy delivers the highest Sharpe ratio (0.6593). This is intuitive: VIX reflects forward-looking market expectations of volatility, allowing the investor to adjust risk more quickly than with backward-looking realized volatility.
+
+Thus, unlike mean timing in Question 1, volatility timing appears to add meaningful value, especially when using implied volatility.
+
+\pagebreak
+
+\subsection*{Question 3}
+
+\subsubsection*{Setup}
+Two investors $i=1,2$, each starts with one unit of wealth and choose holdings $x_i$ of a risky asset (there are two units of risky asset outstanding). Risk-free gross return is $R_f$, risky gross return has mean $\mu$ and variance $\sigma^2$. Investor $i$ receives labor income $Y_i$ with mean $\mu_Y$ and variance $\sigma_Y^2$, and $\operatorname{Cov}(Y_i,R)$ may differ across investors. Define
+$$
+\beta_i = \frac{\operatorname{Cov}(Y_i,R)}{\sigma^2}.
+$$
+Each investor maximizes mean--variance utility:
+$$
+\max_{x_i}\ \ E[W_i] - \frac{\gamma}{2}\operatorname{Var}(W_i),
+\qquad
+W_i = R_f + x_i(R - R_f) + Y_i.
+$$
+
+\subsubsection*{(a) Solve for optimal $x_i$}
+Compute $E[W_i]$ and $\operatorname{Var}(W_i)$:
+\begin{align*}
+E[W_i] &= R_f + x_i(\mu - R_f) + E[Y_i], \\
+\operatorname{Var}(W_i) &= x_i^2 \sigma^2 + 2 x_i \operatorname{Cov}(Y_i,R) + \operatorname{Var}(Y_i).
+\end{align*}
+The FOC w.r.t.\ $x_i$ is
+$$
+0 = (\mu - R_f) - \gamma\left(x_i \sigma^2 + \operatorname{Cov}(Y_i,R)\right).
+$$
+Solving:
+$$
+x_i = \frac{\mu - R_f}{\gamma \sigma^2} - \frac{\operatorname{Cov}(Y_i,R)}{\sigma^2}.
+$$
+Using $\beta_i$:
+$$
+\boxed{ \; x_i = \frac{\mu - R_f}{\gamma\sigma^2} - \beta_i \; }.
+$$
+
+\subsubsection*{(b) Interpretation}
+
+The optimal position,
+\[
+x_i = \frac{\mu - R_f}{\gamma\sigma^2} - \beta_i,
+\]
+has two components. The first term,
+\[
+x_i^{\text{myopic}} = \frac{\mu - R_f}{\gamma\sigma^2},
+\]
+is the standard mean--variance demand based solely on expected returns, variance, and risk aversion. The second term,
+\[
+x_i^{\text{hedge}} = -\beta_i,
+\]
+adjusts for how investor $i$'s income covaries with the risky asset. If $\beta_i > 0$, income is high when the risky return is high, so the investor reduces risky holdings to hedge this exposure. If $\beta_i < 0$, income is negatively correlated with the risky return, and the investor increases risky holdings to offset income risk. Thus, the hedging term compensates for labor-income risk correlated with the asset.
+
+\subsubsection*{(c) Market clearing and expected excess return}
+Market clearing requires
+$$
+x_1 + x_2 = 2.
+$$
+Substitute the expression for $x_i$:
+$$
+\frac{2(\mu - R_f)}{\gamma\sigma^2} - (\beta_1 + \beta_2) = 2.
+$$
+Solve for $\mu - R_f$:
+$$
+\boxed{ \; \mu - R_f = \frac{\gamma\sigma^2}{2}\left(2 + \beta_1 + \beta_2\right). \; }
+$$
+
+\subsubsection*{(d) Comparative statics on $\beta_2$}
+
+Assume $\beta_1 = 0$. From market clearing, expected excess return satisfies
+\[
+\mu - R_f = \frac{\gamma\sigma^2}{2}(2 + \beta_2).
+\]
+If $\beta_2 > 0$, investor 2's income is positively correlated with the risky return, so they reduce their demand for the risky asset. Less demand for risk implies a lower required expected excess return to clear the market.
+
+If $\beta_2 < 0$, investor 2's income is negatively correlated with the risky return, so they demand more of the risky asset to hedge their income risk. Higher demand requires a higher expected excess return to induce sufficient risk-bearing in equilibrium.
+
+Thus, the expected excess return is higher when $\beta_2 < 0$.
+
+
+\subsection*{Statement of Collaboration} I collaborated with Rosalia Mwidege and Theodore Ouyang. Additionally, ChatGPT was used
+to debug any error-prone code and find the proper Excel-equivalent Python
+functions and libraries to properly execute the solutions to the problems, in
+conjunction with the hints listed on the problem set.
+
+\textbf{Honor Code:} This assignment represents my own work in accordance with
+University regulations and class policy.
+
+\end{document}

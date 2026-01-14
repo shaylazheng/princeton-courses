@@ -1,0 +1,28 @@
+% master.tex
+\documentclass{article} % <<< CHANGED FROM 'report'
+
+\input{preamble}
+
+% SCRIPT_INSERT_INCLUDEONLY_HERE
+
+\begin{document}
+
+% --- Custom Title and Table of Contents on a single page ---
+\clearpage 
+\thispagestyle{empty} 
+
+\vspace*{2em}
+\begin{center}
+    {\Large\bfseries ECO491 PSET HW6} \\
+    \vspace{0.5em}
+    {\Large Written Solutions} \\[2em] 
+    {\large Shayla Zheng} \\[1em]
+    {Fall 2025} \\ [1em]
+    {\textit{Last updated}: \today}
+\end{center}
+
+% SCRIPT_LECTURE_INCLUDES_START
+\input{ECO491_HW6.tex}
+% SCRIPT_LECTURE_INCLUDES_END
+
+\end{document}

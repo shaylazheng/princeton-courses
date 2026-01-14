@@ -1,0 +1,228 @@
+% preamble.tex
+% --- Basic Setup and Packages ---
+\usepackage[margin=3cm, top=3cm, bottom=2cm, headheight=30pt]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{enumitem}
+% \usepackage{parskip}
+\usepackage{emptypage}
+\usepackage{subcaption}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{etoolbox}
+\usepackage{lipsum} % For dummy text
+\usepackage{setspace} % Added for line spacing control
+
+\usepackage{svg}
+\svgpath{{./figures/}} % path to your figures folder
+
+\setlength{\parindent}{0pt}
+
+\usepackage{tikz}
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+    \node[shape=circle,draw,inner sep=1.5pt] (char) {\scriptsize #1};}} % Slightly bigger font, slightly bigger circle
+
+% independent
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+% CODE
+\usepackage{listings}
+
+% --- Math Packages and Commands ---
+\usepackage{amsmath, amsfonts, mathtools, amsthm, amssymb}
+\usepackage{cancel}
+\usepackage{bm}
+\usepackage{systeme}
+\usepackage{stmaryrd}
+
+% --- Math Shortcuts and Redefinitions ---
+\newcommand\N{\ensuremath{\mathbb{N}}}
+\newcommand\R{\ensuremath{\mathbb{R}}}
+\newcommand\Z{\ensuremath{\mathbb{Z}}}
+\renewcommand\O{\ensuremath{\emptyset}}
+\newcommand\Q{\ensuremath{\mathbb{Q}}}
+\newcommand\C{\ensuremath{\mathbb{C}}}
+\let\svlim\lim \def\lim{\svlim\limits}
+\let\implies\Rightarrow
+\let\impliedby\Leftarrow
+\let\iff\Leftrightarrow
+\let\epsilon\varepsilon
+\let\phi\varphi
+
+\setlist[itemize]{rightmargin=.75cm}
+\setlist[enumerate]{rightmargin=.75cm}
+\setlist[itemize,2]{label=—, nosep} 
+\setlist[enumerate, 2]{rightmargin=.75cm}
+
+% Slightly lighter interior background colors (unchanged)
+\definecolor{pinkbg}{HTML}{fbe2ed}
+\definecolor{greenbg}{HTML}{eaf2d3}
+\definecolor{orangebg}{HTML}{FAEBD6}
+\definecolor{yellowbg}{HTML}{FBF9E2}
+\definecolor{beigebg}{HTML}{F7F3EA}
+\definecolor{lgreenbg}{HTML}{f3f8e7}
+
+% Clean, saturated darker frame colors (less brown/gray)
+\definecolor{pinkfr}{HTML}{C04B6C}     % clean deep pink
+\definecolor{greenfr}{HTML}{83913e}    % clear leafy green
+\definecolor{orangefr}{HTML}{D17C32}   % vivid orange-brown
+\definecolor{yellowfr}{HTML}{A68F00}   % golden mustard
+\definecolor{beigefr}{HTML}{B29B6D}    % warm sand
+\definecolor{lgreenfr}{HTML}{90a044}   % soft emerald
+
+%======================================================================
+% ROBUST TCOLORBOX SETUP
+%======================================================================
+\usepackage[most]{tcolorbox}
+% Changed counter to be based on subsection for the new article structure
+\newcounter{globalbox}[section]
+\renewcommand{\theglobalbox}{\thesubsection.\arabic{globalbox}}
+\gdef\g_current_tcolorbox_color_tl{gray!50} % Default color for proof/note line
+\tcbset{
+  my_framed_style/.style={enhanced, top=10pt, breakable=false, before skip=15pt, after skip=15pt, before upper={\refstepcounter{globalbox}}, sharp corners, boxrule=1pt, attach boxed title to top right={yshift=-5pt, xshift=-7mm}, boxed title style={boxrule=1pt, arc=0mm, top=1mm}, coltitle=black},
+  my_inline_style/.style={enhanced, breakable=true, before skip=9pt, after skip=9pt, sharp corners, frame hidden, boxrule=0pt},
+}
+\newtcolorbox{definition}[1]{my_framed_style, colback=pinkbg, colbacktitle=pinkbg, title={\textbf{#1}}, colframe=pinkfr, interior code app={\node[inner sep=6pt, anchor=south west, line width=1pt, draw=pinkfr, fill=pinkbg, yshift=-5pt, xshift=7mm, text=pinkfr] at (frame.north west) {\bfseries Definition~\theglobalbox};}, after={\gdef\g_current_tcolorbox_color_tl{pinkfr}}}
+\newtcolorbox{theorem}[1]{my_framed_style, colback=greenbg, colbacktitle=greenbg, title={\textbf{#1}}, colframe=greenfr, interior code app={\node[inner sep=6pt, anchor=south west, line width=1pt, draw=greenfr, fill=greenbg, yshift=-5pt, xshift=7mm, text=greenfr] at (frame.north west) {\bfseries Theorem~\theglobalbox};}, after={\gdef\g_current_tcolorbox_color_tl{greenfr}}}
+\newtcolorbox{exampleframed}[1]{my_framed_style, colback=orangebg, colbacktitle=orangebg, title={\textbf{#1}}, colframe=orangefr, interior code app={\node[inner sep=6pt, anchor=south west, line width=1pt, draw=orangefr, fill=orangebg, yshift=-5pt, xshift=7mm, text=orangefr] at (frame.north west) {\bfseries Example~\theglobalbox};}, after={\gdef\g_current_tcolorbox_color_tl{orangefr}}}
+\newtcolorbox{remark}{my_inline_style, colback=beigebg, colframe=beigebg, before upper={\refstepcounter{globalbox}\textcolor{beigefr}{\textbf{Remark~\theglobalbox}}\hspace{0.5em}}, after={\gdef\g_current_tcolorbox_color_tl{beigefr}}}
+\newtcolorbox{example}{my_inline_style, colback=orangebg, colframe=orangebg, before upper={\refstepcounter{globalbox}\textcolor{orangefr}{\textbf{Example~\theglobalbox}}\hspace{0.5em}}, after={\gdef\g_current_tcolorbox_color_tl{orangefr}}}
+\newtcolorbox{question}{my_inline_style, colback=yellowbg, colframe=yellowbg, before upper={\refstepcounter{globalbox}\textcolor{yellowfr}{\textbf{Question~\theglobalbox}}\hspace{0.5em}}, after={\gdef\g_current_tcolorbox_color_tl{yellowfr}}}
+\newtcolorbox{lemma}{my_inline_style, colback=lgreenbg, colframe=lgreenbg, before upper={\refstepcounter{globalbox}\textcolor{lgreenfr}{\textbf{Lemma~\theglobalbox}}\hspace{0.5em}}, after={\gdef\g_current_tcolorbox_color_tl{lgreenfr}}}
+
+% --- NOTEBOX WITH OPTIONAL COLOR AND UPDATED BEHAVIOR ---
+% Usage: \begin{notebox}{Title} for inherited color
+%        \begin{notebox}[black]{Title} for a black frame that makes the next proof/note have a black line
+\newtcolorbox{notebox}[2][\g_current_tcolorbox_color_tl]{
+  enhanced,
+  breakable=true,
+  before skip=9pt,
+  after skip=9pt,
+  sharp corners,
+  colback=white,
+  colframe=#1, % Takes color from optional argument #1
+  boxrule=1pt,
+  before upper={\noindent\textcolor{#1}{\textbf{#2}}\hspace{1em}}, % Title from mandatory argument #2, colored with #1
+  % If the frame color is 'black', set the next proof/note color to black.
+  after={\ifstrequal{#1}{black}{\gdef\g_current_tcolorbox_color_tl{black}}{}}
+}
+
+% --- UPDATED PROOF BOX ---
+% Usage: \begin{prooff} for default "Proof."
+%        \begin{prooff}[Custom Title] for a colored, bold title
+\newtcolorbox{prooff}[1][]{
+  enhanced, 
+  colback=white, 
+  colframe=white,
+  breakable=true, 
+  boxrule=0pt, 
+  frame hidden, 
+  borderline west={2pt}{0pt}{\g_current_tcolorbox_color_tl}, 
+  sharp corners, 
+  before upper={%
+    \ifstrempty{#1}{%
+      \textit{Proof.}%
+    }{%
+      \textcolor{\g_current_tcolorbox_color_tl}{\textbf{#1}}%
+    }\hspace{0.5em}%
+  }
+}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{darkgray}, % Use the dark gray color
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{codepurple}\bfseries,
+    numberstyle=\tiny\color{myblue},
+    stringstyle=\color{mycyan},
+    basicstyle=\footnotesize\ttfamily\color{white}, % Basic font style and white text color
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+
+% --- HOOK TO MAKE DEFAULT FIGURE USE GLOBAL COUNTER ---
+\captionsetup[figure]{
+  labelformat=simple,
+  labelsep=colon,
+  name=Figure,
+  labelfont={small,bf},
+  textfont=small
+}
+\AtBeginEnvironment{figure}{%
+  \refstepcounter{globalbox}% Step the shared counter
+  \renewcommand{\thefigure}{\theglobalbox}% Make \thefigure display the globalbox number
+}
+
+%======================================================================
+% HEADER, FOOTER, AND SECTION STYLE SETUP FOR ARTICLE CLASS
+%======================================================================
+\usepackage{fancyhdr}
+\usepackage{textcase}
+\usepackage{titlesec}
+
+% This command controls the text that goes into the header
+\renewcommand{\sectionmark}[1]{\markboth{\MakeUppercase{Question~\thesection:\ #1}}{}}
+
+% --- Style for REGULAR, NUMBERED lectures (now using \section) ---
+\titleformat{\section}
+  {\normalfont\bfseries\large} % Changed to \large
+  {}
+  {0pt}
+  {Question~\thesection:\hspace{0.35em}} % Title format
+\titlespacing*{\section}{0pt}{20pt}{15pt}
+
+% --- Style for SUBSECTIONS ---
+\titleformat{\subsection}
+  {\normalfont\bfseries\large} % Set to \large
+  {\thesubsection}
+  {1em}
+  {}
+\titlespacing*{\subsection}{0pt}{12pt}{6pt} % Control spacing
+
+% --- Style for UNNUMBERED sections (e.g., a preface) ---
+\titleformat{name=\section,numberless}[display]
+  {\normalfont\huge\bfseries\centering}
+  {}
+  {0pt}
+  {}
+\titlespacing*{name=\section,numberless}{0pt}{10pt}{40pt}
+
+% --- Header and Footer Setup ---
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\leftmark}
+\fancyfoot[L]{\MakeUppercase{Course Name}}
+\fancyfoot[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \fancyfoot[C]{\thepage}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0pt}%
+}
+
+% --- TOC and Numbering Depth ---
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
+
+% --- Figure Support (Optional) ---
+\usepackage{import}
+\usepackage{pdfpages}
+\usepackage{transparent}
+\pdfsuppresswarningpagegroup=1
+\newcommand{\incfig}[1]{\def\svgwidth{\columnwidth}\import{./figures/}{#1.pdf}}

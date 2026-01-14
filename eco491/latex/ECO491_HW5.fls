@@ -1,0 +1,10 @@
+PWD /Users/shaylazheng/Desktop/git-repos/princeton-courses/eco491/latex
+INPUT /usr/local/texlive/2025/texmf.cnf
+INPUT /usr/local/texlive/2025/texmf-dist/web2c/texmf.cnf
+INPUT /usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt
+INPUT /Users/shaylazheng/Desktop/git-repos/princeton-courses/eco491/latex/ECO491_HW5.tex
+OUTPUT ECO491_HW5.log
+OUTPUT ECO491_HW5.pdf
+INPUT /usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmti10.tfm
